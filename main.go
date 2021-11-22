@@ -9,6 +9,7 @@ import (
 
 func LoadConfig() {
 	viper.AddConfigPath("./")
+	viper.AddConfigPath("./.cache/")
 	viper.AddConfigPath("/etc/choose-ssh/")
 	viper.SetConfigName("servers")
 	viper.SetConfigType("yaml")

@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/viper"
+	"strings"
 )
 
 func LoadConfig() {
 	viper.AddConfigPath("./")
+	viper.AddConfigPath("/etc/choose-ssh/")
 	viper.SetConfigName("servers")
 	viper.SetConfigType("yaml")
 	viper.AutomaticEnv()
@@ -21,7 +23,7 @@ func main() {
 	LoadConfig()
 	groupNames := make([]string, 0)
 	for key, _ := range viper.GetStringMap("all") {
-		groupNames = append(groupNames, key)
+		groupNames = append(groupNames, strings.ToUpper(key))
 	}
 	prompt1 := promptui.Select{
 		Label: "Select Group",
@@ -35,7 +37,7 @@ func main() {
 	fmt.Printf("Selected %q\n", resultGroup)
 	connNames := make([]string, 0)
 	for key, _ := range viper.GetStringMap(toKey("all", resultGroup)) {
-		connNames = append(connNames, key)
+		connNames = append(connNames, strings.ToUpper(key))
 	}
 	prompt2 := promptui.Select{
 		Label: "Select Connection",

@@ -4,17 +4,23 @@ import (
 	"fmt"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/viper"
+	"os"
 	"strings"
 )
 
 func LoadConfig() {
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(homedir)
 	viper.AddConfigPath("./")
-	viper.AddConfigPath("./.cache/")
+	viper.AddConfigPath(homedir + "/.cache/")
 	viper.AddConfigPath("/etc/choose-ssh/")
 	viper.SetConfigName("servers")
 	viper.SetConfigType("yaml")
 	viper.AutomaticEnv()
-	err := viper.ReadInConfig()
+	err = viper.ReadInConfig()
 	if err != nil {
 		panic(err)
 	}
